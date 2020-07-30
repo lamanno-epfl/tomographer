@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Tutorials &#8212; Tomographer  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Code" href="code.html" />
+    <link rel="prev" title="Summary" href="summary.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="code.html" title="Code"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="summary.html" title="Summary"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tomographer  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="create-configuration-and-input-files">
+<h2>Create configuration and input files<a class="headerlink" href="#create-configuration-and-input-files" title="Permalink to this headline">¶</a></h2>
+<p>The configuration file needs to be created which will incorporate all experimental set up parameters. Please refer to documentation of defaults.ReconstructionConfig():</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">configurationFile</span> <span class="o">=</span> <span class="n">tomography</span><span class="o">.</span><span class="n">ReconstructionConfig</span><span class="p">(</span><span class="n">angles_names</span><span class="o">=</span><span class="n">angles_names</span><span class="p">,</span>
+                                       <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span><span class="n">mask_thrs</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                       <span class="n">reference_mask</span><span class="o">=</span><span class="n">reference_mask</span><span class="p">,</span>
+                                       <span class="n">symmetry</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                       <span class="n">masked_formulation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                       <span class="n">angles_values</span><span class="o">=</span><span class="n">angles_values</span><span class="p">,</span>
+                                       <span class="n">first_points</span><span class="o">=</span><span class="n">first_points</span><span class="p">,</span>
+                                       <span class="n">widths</span><span class="o">=</span><span class="n">widths</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The mask is a binarized image indicating which pixels are within the tissue with 1 and those outside the tissue with 0. The reference mask is a brightfield microscopy image of the tissue which was thresholded by the parameter mask_thrs to create the binarized mask. The symmetry parameter implies that one is considering a tissue section which is believed to be symmetrical. Setting this to true permits for more accurate reconstructions for symmetrical tissue samples.</p>
+<p>The input file needs to be in a specified format as well. It is a dictionary of dictionaries. Depending on what data you have in projections, you will need to modify the line <cite>gene_projection = load(gene, angle)</cite> so that the data can be properly loaded and stored in the <cite>.hdf5</cite> file.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_filename_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">angles_names</span><span class="p">,</span> <span class="n">angles_values</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates h5py file with data.</span>
+
+<span class="sd">    Argumets:</span>
+
+<span class="sd">    file_path: string path to .h5py</span>
+<span class="sd">    angles_names: list of angle names in format anglexxx</span>
+<span class="sd">    angles_values: integer values of angle names</span>
+<span class="sd">    var: dictionary containing gene_list and attributes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fout</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">g_name</span><span class="p">,</span> <span class="n">g_</span> <span class="ow">in</span> <span class="n">var</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">anglename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">angles_names</span><span class="p">):</span>
+
+            <span class="n">gene_projection</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+
+            <span class="n">fout</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;genes/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">g_name</span><span class="p">,</span> <span class="n">anglename</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">gene_projection</span><span class="p">)</span>
+
+    <span class="n">fout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">profiles</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-tomographer-object">
+<h2>The Tomographer object<a class="headerlink" href="#the-tomographer-object" title="Permalink to this headline">¶</a></h2>
+<p>In the following steps, we will create the Tomographer object and load the ReconstructionConfig file and InputProjection file.</p>
+<p>This is done as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">filename_data</span> <span class="o">=</span> <span class="s2">&quot;/path/to/InputProjection.hdf&quot;</span><span class="p">)</span>
+<span class="n">tg</span> <span class="o">=</span> <span class="n">tomography</span><span class="o">.</span><span class="n">Tomographer</span><span class="p">()</span>
+<span class="n">tg</span><span class="o">.</span><span class="n">load_cfg</span><span class="p">(</span><span class="n">configurationFile</span><span class="p">)</span>
+<span class="n">tg</span><span class="o">.</span><span class="n">connect_data</span><span class="p">(</span><span class="n">filename_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, the Tomographer object has a method <cite>reconstruct</cite>. This will take in the gene name and the hyperparameters one wants to use to solve for the spatial profile of the gene.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span> <span class="n">alpha_beta</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If one is unsure of the hyperparameters, replace (0,0) with ‘auto’ to perform a grid search.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span> <span class="n">crossval_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;domain&quot;</span><span class="p">:[(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)]})</span>
+</pre></div>
+</div>
+<p>Note that other specifications for the grid search can be found in optimization.optimize.</p>
+</div>
+<div class="section" id="reconstruct-multiple-genes">
+<h2>Reconstruct multiple genes<a class="headerlink" href="#reconstruct-multiple-genes" title="Permalink to this headline">¶</a></h2>
+<p>If one has a list of gene names one would like to reconstruct, <cite>tomorun.py</cite> can be run using the inputs specified in summary (section 4):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">OMP_NUM_THREADS</span> <span class="o">&amp;&amp;</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">nohup</span> <span class="n">python3</span> <span class="o">/</span><span class="n">tomography</span><span class="o">/</span><span class="n">tomorun</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">configurationFile</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">inputProjections</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">o</span> <span class="o">/</span><span class="n">outputFileName</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">a</span>  <span class="n">outputFileNameAlphaBeta</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">g</span> <span class="n">listofGenes</span><span class="o">.</span><span class="n">txt</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">outputstderr</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">&amp;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorials</a><ul>
+<li><a class="reference internal" href="#create-configuration-and-input-files">Create configuration and input files</a></li>
+<li><a class="reference internal" href="#the-tomographer-object">The Tomographer object</a></li>
+<li><a class="reference internal" href="#reconstruct-multiple-genes">Reconstruct multiple genes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="summary.html"
+                        title="previous chapter">Summary</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="code.html"
+                        title="next chapter">Code</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="code.html" title="Code"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="summary.html" title="Summary"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tomographer  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, La Manno Group.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

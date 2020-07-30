@@ -1,0 +1,1313 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Code &#8212; Tomographer  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Tutorials" href="tutorial.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorials"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tomographer  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="code">
+<h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tomographer">
+<h2>Tomographer<a class="headerlink" href="#tomographer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="tomography.Tomographer">
+<em class="property">class </em><code class="sig-prename descclassname">tomography.</code><code class="sig-name descname">Tomographer</code><a class="headerlink" href="#tomography.Tomographer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main object to work with tomographic reconstruction problems</p>
+<p>The analysis steps are:</p>
+<ol class="arabic">
+<li><p>First load the defaults</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>tg = Tomographer()</p></li>
+<li><p>tg.load_cfg(“config_file.hdf5”)  # or set this manually</p></li>
+<li><p>tg.prepare_design()</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Then load the data</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>tg.connect_data(“data.hdf5”)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Finally, reconstruct one gene</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>tg.reconstruct(gene=”Lmx1a”)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<dl class="py method">
+<dt id="tomography.Tomographer.connect_data">
+<code class="sig-name descname">connect_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">datafile</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#tomography.Tomographer.connect_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load hdf5 dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="tomography.Tomographer.load_cfg">
+<code class="sig-name descname">load_cfg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cfg</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="#tomography.defaults.ReconstructionConfig" title="tomography.defaults.ReconstructionConfig">tomography.defaults.ReconstructionConfig</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#tomography.Tomographer.load_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load defaults from file
+:param defaults:
+:type defaults: filename (str) or ReconstructionDefaults (object)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="tomography.Tomographer.reconstruct">
+<code class="sig-name descname">reconstruct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gene</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">alpha_beta</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">warm_start</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">crossval_kwargs</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">nb_r</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">kfolds</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.Tomographer.reconstruct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform reconstruction of a gene</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gene</strong> (<em>str</em>) – gene name as in datafile</p></li>
+<li><p><strong>alpha_beta</strong> (<em>str</em><em> or </em><em>tuple</em>) – <dl class="simple">
+<dt>options are:</dt><dd><p>”auto”: it will try to use the alpha and beta parameters present in the data file, if none is provided it will perform crossvalidation
+“crossvalidation”: it will force crossvalidation
+(alpha, beta): passing a tuple will perform the reconstruction using this parameters</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>warm_start</strong> – whether to use the previous reconstruction result as warm start.
+NOTE what the previous reconstruction is might change depending the alpha_beta parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>reconstructed</strong> – the reconstructed signal already reshaped</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray (2d)</p>
+</dd>
+</dl>
+<p>NOTE you can also access the recosntruction parameters using the attribute <cite>.reconstructor</cite></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.core">
+<span id="core"></span><h2>Core<a class="headerlink" href="#module-tomography.core" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="tomography.core.build_Design_Matrix">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">build_Design_Matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angles</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">widths</span><span class="p">:</span> <span class="n">List<span class="p">[</span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">mask_g</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask_thrs</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">notation_inverse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">return_projlen</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">return_sparse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.build_Design_Matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the regression design matrix (Projection Matrix).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angles</strong> (<em>np.ndarray</em>) – the angles of the slicing</p></li>
+<li><p><strong>widths</strong> (<em>list of float</em>) – (number of pixels) real width of a slice for every cutting angle</p></li>
+<li><p><strong>mask_g</strong> (<em>2-D array of floats</em>) – greyscale mask reppresenting the shape of the tissue slice,
+works good also if entries are only 1s and 0s</p></li>
+<li><p><strong>mask_thrs</strong> (<em>float</em>) – value to threshold mask_g</p></li>
+<li><p><strong>notation_inverse</strong> (<em>bool</em><em>, </em><em>default=True</em>) – the angles are ment from the point of view of the image</p></li>
+<li><p><strong>return_projlen</strong> (<em>bool</em><em>, </em><em>default=True</em>) – wether to return the information about the number of rows for each angle</p></li>
+<li><p><strong>return_sparse</strong> (<em>bool</em><em>, </em><em>default=False</em>) – wether to return a scipy.sparse.csr_matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>design_matrix</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>2-d array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>it returns design matrix for the mask constrained regression problem
+the correct angles would be the one looking at the image flipped (origin at left-top positive of y is down)
+but if notation_inverse == True it assumes that angles are respect to a origin at the left-bottom</p>
+<dl class="simple">
+<dt>Assumptions: The image is reliable and the width are reliable.</dt><dd><p>This has to be adjusted beforehand</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.calculate_projection">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">calculate_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angle</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">q</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">X_coords</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">Y_coords</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">slice_width</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.calculate_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a flattened array of the pixels contribution to the point projection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> (<em>float</em>) – The slope of the line the slide is centered upon</p></li>
+<li><p><strong>q</strong> (<em>float</em>) – The q parameter of the line (y = mx +q) the slide is centered upon</p></li>
+<li><p><strong>X_coords</strong> (<em>2-D array</em>) – contains x at pixel (y,x)</p></li>
+<li><p><strong>Y_coords</strong> (<em>2-D array</em>) – contains y at pixel (y,x)</p></li>
+<li><p><strong>slice_width</strong> (<em>float</em>) – the width of a slice</p></li>
+<li><p><strong>sparse</strong> (<em>bool</em><em>, </em><em>default=False</em>) – wether to return a csr sparse matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>design_matrix_row</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1-D array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>What is returned by this function correspond to a row of the Design/Projection matrix.
+To be more precise this is the raveled form of a matrix that contains:
+in position (r,c) the contribution of the (r,c) pixel to the point projection.</p>
+<p>In practice this is calculated with an heuristic function.
+contribution around the line distributes as a linear (triangular) kernel
+the line y = tan(alpha)*x + q
+If plotted would look like a pixelated line (y = tan(alpha) + q) that skips all the
+zero point of the image mask</p>
+<p>The reason why this is used and prefered over other kernels is that this is robust
+over summation. This means that summing all the pixel contributions one gets back
+the original grayscale image mask.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.create_connectivity">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">create_connectivity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">kind</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'queen'</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.create_connectivity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a connectivity matrix of the pixels in a image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mask</strong> (<em>np.2darray</em>) – Square image of side N</p></li>
+<li><p><strong>kind</strong> (<em>str default 'queen</em>) – The kind of connectivity to apply. Can be: rook, bishop, queen (as in chess)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>connectivity_matrix</strong> – A connectivity matrix (N^2, N^2) where N is the side of mask</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.distance_point_line">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">distance_point_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">point</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#tomography.core.distance_point_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the distance between a point and a line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<em>touple of float</em>) – Coordinates (x, y)  of the point</p></li>
+<li><p><strong>line</strong> (<em>touple of float</em>) – Parameters (a,b,c) where the line is ax + by + c = 0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>distance</strong> – Euclidean distance between the point and the line</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.find_extremities">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">find_extremities</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">angle</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#tomography.core.find_extremities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first and last point encoutered by slicing
+the mask <cite>image</cite> with angle <cite>angle</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>2-D array</em>) – the convex_hull of the mask</p></li>
+<li><p><strong>angle</strong> (<em>float</em>) – (in radiants) the angle of the slicing with respect to x (conter clockwise)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>first_point, last_point</strong> – first and last point touched rotating counterclockwise (clockwise if looking at the image) direction</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>arrays</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Given a slicing angle and a mask it returns the first and
+last point encoutered by the slicing. We use a rotation
+trick to do this in the fastest and most robust way</p>
+<p>Timing: 2.75 ms</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.linear_kernel">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">linear_kernel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numpy.ndarray<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">w</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.linear_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the linear kernel at a point distant D from the max</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>D</strong> (<em>ndarray</em><em> or </em><em>float</em>) – distance from the center(max) of the kernel</p></li>
+<li><p><strong>w</strong> (<em>float</em>) – half width of the wavelet (distance from max to zero)
+for d &gt; w the kernel evaluate to 0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>K</strong> – Array containg at K[i,j] the value of the kernel function
+at D[i,j]. For definition of kernel it is 0&lt;=K[i,j]&lt;=1</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray or float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.place_inside_mask">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">place_inside_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask_bw</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.place_inside_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place the values at the position that are 1/True in mask followin the C_CONTIGUOUS enumeration order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> (<em>np.ndarray</em><em> (</em><em>1d</em><em>, </em><em>float</em><em>)</em>) – the vaues to fill in mask</p></li>
+<li><p><strong>mask_bw</strong> (<em>np.ndarray</em><em> (</em><em>2d</em><em>, </em><em>binary</em><em> or </em><em>boolean</em><em>)</em>) – the mask to fill values in</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>x</strong> – 2d array with the values subsittuted in the right place of the mask</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray 2d</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_design_masked">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_design_masked</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask_bw</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.prepare_design_masked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design matrix using only the pixels in the mask</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>D</strong> (<em>np.ndarray</em>) – The design matrix as it comes from build_Design_Matrix</p></li>
+<li><p><strong>mask_bw</strong> (<em>np.ndarray</em><em> (</em><em>binary</em><em> or </em><em>boolean</em><em>)</em>) – The image used as mask. Entryes should be only 1/0 or True/False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>New design matrix with appended the simmetric angles. And where only the pixels in the mask are considered</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_design_symmetry">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_design_symmetry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.prepare_design_symmetry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add to the design matrix strip simmetric to the one in the input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>D</strong> (<em>np.ndarray</em>) – The design matrix as it comes from build_Design_Matrix</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>New design matrix with appended the simmetric angles</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_design_symmetry_masked">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_design_symmetry_masked</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask_bw</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.prepare_design_symmetry_masked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design matrix using only the pixels in the mask and adding strips simmetric to the one in the input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>D</strong> (<em>np.ndarray</em>) – The design matrix as it comes from build_Design_Matrix</p></li>
+<li><p><strong>mask_bw</strong> (<em>np.ndarray</em><em> (</em><em>binary</em><em> or </em><em>boolean</em><em>)</em>) – The image used as mask. Entryes should be only 1/0 or True/False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>New design matrix with appended the simmetric angles. And where only the pixels in the mask are considered</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_observations">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_observations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projections</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">xs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">first_points</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">projs_len</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'linear'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.prepare_observations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the observation vector <cite>b</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projections</strong> (<em>list of 1-D array</em>) – a list of projection. Projections are first selected so that the first value is the first reliable section and
+the last the last reliable section</p></li>
+<li><p><strong>xs</strong> (<em>list of 1-D array</em>) – Contains arrays indicating wich are indexes of the ‘projections’ input.
+<cite>projections</cite> are usually filtered and trimmed, so an ix array is kept to keep track of it.
+Its values[i] usually gets filtered and some samples are missing.
+e.g. [ array([20,21,22,24,25,27,30,…]), array([10,11,12,15,16,17,18,…]), array([3,4,7,9,10,11,12,…]) ]</p></li>
+<li><p><strong>first_points</strong> (<em>list of int</em>) – for every proj-angle it indicates how shifted it is from the theoretical one</p></li>
+<li><p><strong>projs_len</strong> (<em>list of int</em>) – the expected number of slices that should be taken in account starting from <cite>list_of_points[i]</cite></p></li>
+<li><p><strong>interpolation</strong> (<em>str</em>) – kind interpolation one of “linear”, “cubic”, “mixed”</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – prints min(xi), max(xi), max(xi)-min(xi)+1, n_points, len(xi), len(p)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_proj</strong> – The projections ready to be given as an imput of a regression problem</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1-D array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_observations_symmetry">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_observations_symmetry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projections</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">xs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">first_points</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">projs_len</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'linear'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.prepare_observations_symmetry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the observation vector <cite>b</cite> assuming symmetry.
+It will will copy the observations at one angle so to assume that the projection at the symmetrical is the same</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projections</strong> (<em>list of 1-D array</em>) – a list of projection. Projections are first selected so that the first value is the first reliable section and
+the last the last reliable section</p></li>
+<li><p><strong>xs</strong> (<em>list of 1-D array</em>) – Contains arrays indicating wich are indexes of the ‘projections’ input.
+<cite>projections</cite> are usually filtered and trimmed, so an ix array is kept to keep track of it.
+Its values[i] usually gets filtered and some samples are missing.
+e.g. [ array([20,21,22,24,25,27,30,…]), array([10,11,12,15,16,17,18,…]), array([3,4,7,9,10,11,12,…]) ]</p></li>
+<li><p><strong>first_points</strong> (<em>list of int</em>) – for every proj-angle it indicates how shifted it is from the theoretical one</p></li>
+<li><p><strong>projs_len</strong> (<em>list of int</em>) – the expected number of slices that should be taken in account starting from <cite>list_of_points[i]</cite></p></li>
+<li><p><strong>interpolation</strong> (<em>str</em>) – kind interpolation one of “linear”, “cubic”, “mixed”</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – prints min(xi), max(xi), max(xi)-min(xi)+1, n_points, len(xi), len(p)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_proj</strong> – The projections ready to be given as an imput of a regression problem</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1-D array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_regression">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_regression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projections</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">xs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">design_matrix</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">first_points</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">projs_len</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#tomography.core.prepare_regression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare Design matrix and observation vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projections</strong> (<em>list of 1-D array</em>) – a list of projection. Projections are first selected so that the first value is the first reliable section and
+the last the last reliable section</p></li>
+<li><p><strong>xs</strong> (<em>list of 1-D array</em>) – Contains arrays indicating wich are indexes of the ‘projections’ input.
+<cite>projections</cite> are usually filtered and trimmed, so an ix array is kept to keep track of it.
+Its values[i] usually gets filtered and some samples are missing.
+e.g. [ array([20,21,22,24,25,27,30,…]), array([10,11,12,15,16,17,18,…]), array([3,4,7,9,10,11,12,…]) ]</p></li>
+<li><p><strong>design_matrix</strong> (<em>2-D array</em>) – as calculated by the fucntion build_Design_Matrix</p></li>
+<li><p><strong>first_points</strong> (<em>list of int</em>) – for every proj-angle it indicates how shifted it is from the theoretical one</p></li>
+<li><p><strong>projs_len</strong> (<em>list of int</em>) – the expected number of slices that should be taken in account starting from <cite>list_of_points[i]</cite></p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – prints min(xi), max(xi), max(xi)-min(xi)+1, n_points, len(xi), len(p)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>D</strong> (<em>2-D array</em>) – The design matrix ready to be given as as a input of a regression problem</p></li>
+<li><p><strong>final_proj</strong> (<em>1-D array</em>) – The projections ready to be given as an imput of a regression problem</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The function includes a mixed cubic-linear-zero interpolation to fill in the missing values.
+This is necessary because if one instead omits the equations for the missing projection (as it would be intuitive)
+the regularized problem will have less constrains and the respective pixel will be set
+to zero or very low numbers.
+Input image given to Design Matrix function has to be symmetrical.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_regression_symmetry">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_regression_symmetry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projections</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">xs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">design_matrix</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">first_points</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[0, 0, 0]</span></em>, <em class="sig-param"><span class="n">projs_len</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[100, 100, 100]</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#tomography.core.prepare_regression_symmetry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currently the best algorythm for reconstruction explointing the simmetry of the input image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projections</strong> (<em>list of 1-D array</em>) – a list of projection. Projections are first selected so that the first value is the first reliable section and
+the last the last reliable section</p></li>
+<li><p><strong>xs</strong> (<em>list of 1-D array</em>) – Contains arrays indicating wich are indexes of the ‘projections’ input.
+<cite>projections</cite> are usually filtered and trimmed, so an ix array is kept to keep track of it.
+Its values[i] usually gets filtered and some samples are missing.
+e.g. [ array([20,21,22,24,25,27,30,…]), array([10,11,12,15,16,17,18,…]), array([3,4,7,9,10,11,12,…]) ]</p></li>
+<li><p><strong>design_matrix</strong> (<em>2-D array</em>) – as calculated by the fucntion build_Design_Matrix</p></li>
+<li><p><strong>first_points</strong> (<em>list of int</em>) – for every proj-angle it indicates how shifted it is from the theoretical one</p></li>
+<li><p><strong>projs_len</strong> (<em>list of int</em>) – the expected number of slices that should be taken in account starting from <cite>list_of_points[i]</cite></p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – prints min(xi), max(xi), max(xi)-min(xi)+1, n_points, len(xi), len(p)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>D</strong> (<em>2-D array</em>) – The design matrix ready to be given as as a input of a regression problem</p></li>
+<li><p><strong>final_proj</strong> (<em>1-D array</em>) – The projections ready to be given as an imput of a regression problem</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The function includes a mixed cubic-linear-zero interpolation to fill in the missing values.
+This is necessary because if one instead omits the equations for the missing projection (as it would be intuitive)
+the regularized problem will have less constrained and the respective pixel will be set
+to zero or very low numbers.
+Input image given to Design Matrix function has to be symmetrical.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.prepare_regression_symmetry_masked">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">prepare_regression_symmetry_masked</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projections</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">xs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">design_matrix</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">first_points</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">projs_len</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#tomography.core.prepare_regression_symmetry_masked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currently the best and faster algorythm for reconstruction explointing the simmetry of the input image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projections</strong> (<em>list of 1-D array</em>) – a list of projection. Projections are first selected so that the first value is the first reliable section and
+the last the last reliable section</p></li>
+<li><p><strong>xs</strong> (<em>list of 1-D array</em>) – Contains arrays indicating wich are indexes of the ‘projections’ input.
+<cite>projections</cite> are usually filtered and trimmed, so an ix array is kept to keep track of it.
+Its values[i] usually gets filtered and some samples are missing.
+e.g. [ array([20,21,22,24,25,27,30,…]), array([10,11,12,15,16,17,18,…]), array([3,4,7,9,10,11,12,…]) ]</p></li>
+<li><p><strong>design_matrix</strong> (<em>2-D array</em>) – as calculated by the fucntion build_Design_Matrix</p></li>
+<li><p><strong>mask</strong> (<em>2-D boolean array:</em>) – a boolean masked indicating which pixel to reconstruct</p></li>
+<li><p><strong>first_points</strong> (<em>list of int</em>) – for every proj-angle it indicates how shifted it is from the theoretical one</p></li>
+<li><p><strong>projs_len</strong> (<em>list of int</em>) – the expected number of slices that should be taken in account starting from <cite>list_of_points[i]</cite></p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – prints min(xi), max(xi), max(xi)-min(xi)+1, n_points, len(xi), len(p)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>D</strong> (<em>2-D array</em>) – The design matrix ready to be given as as a input of a regression problem</p></li>
+<li><p><strong>final_proj</strong> (<em>1-D array</em>) – The projections ready to be given as an imput of a regression problem</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The function includes a mixed cubic-linear-zero interpolation to fill in the missing values.
+This is necessary because if one instead omits the equations for the missing projection (as it would be intuitive)
+the regularized problem will have less constrained and the respective pixel will be set
+to zero or very low numbers.
+Input image given to Design Matrix function has to be symmetrical.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.slicing_parameters">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">slicing_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angle</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">extremity_points</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#tomography.core.slicing_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates all the parameters necessary for slicing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> (<em>float</em>) – angle in radiants</p></li>
+<li><p><strong>extremity_points</strong> (<em>touple of 1-D array</em>) – (first_point, last_point) as it is given from find_extremities()</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>m, qs</strong> (<em>floats</em>) – Parameters for the two tangent lines: y = m*x + qs[0] and y = m*x + qs[1]</p></li>
+<li><p><strong>TO DO</strong> (<em>Cases here r // x and r // y</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.core.sum_project">
+<code class="sig-prename descclassname">tomography.core.</code><code class="sig-name descname">sum_project</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">angle</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">slice_width</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">notation_inverse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.core.sum_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility to get the projection of a greayscale <cite>image</cite> in a direction <cite>angle</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>2-D array</em>) – Grayscale image. Reppresenting a mask or a signal</p></li>
+<li><p><strong>angle</strong> (<em>float</em>) – In radiants, the angle of slicing</p></li>
+<li><p><strong>slice_width</strong> (<em>float</em>) – The width of a slice</p></li>
+<li><p><strong>notation_inverse</strong> (<em>bool</em>) – the angle is ment from the point of view of the image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>projection</strong> (<em>1-D array</em>) – the sum of all the pixels</p></li>
+<li><p><strong>TODO</strong> (<em>add suppport with precomputed projection matrix</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.optimization">
+<span id="optimization"></span><h2>Optimization<a class="headerlink" href="#module-tomography.optimization" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="tomography.optimization.ReconstructorCVXPY">
+<em class="property">class </em><code class="sig-prename descclassname">tomography.optimization.</code><code class="sig-name descname">ReconstructorCVXPY</code><span class="sig-paren">(</span><em class="sig-param">alpha: float = 1</em>, <em class="sig-param">beta: float = 0.01</em>, <em class="sig-param">config: tomography.defaults.ReconstructionConfig = &lt;tomography.defaults.ReconstructionConfig object&gt;</em>, <em class="sig-param">solver: str = 'SCS'</em>, <em class="sig-param">solver_kwargs: dict = {}</em><span class="sig-paren">)</span><a class="headerlink" href="#tomography.optimization.ReconstructorCVXPY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimizer to solve constrained regularized least squares problem</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>default 1.0</em>) – Controls instensity of L1 regularization</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em>, </em><em>default 0.01</em>) – controls intensity of the TV filter</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="#tomography.defaults.ReconstructionConfig" title="tomography.defaults.ReconstructionConfig"><em>ReconstructionConfig</em></a>) – object containing the details of the geometry of the reconstruction</p></li>
+<li><p><strong>solver</strong> (<em>cvxpy solver obejct</em><em>, </em><em>default cvxpy.SCS</em>) – Can be changed but most performant in the task seem to be SCS</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="tomography.optimization.ReconstructorCVXPY.change_par">
+<code class="sig-name descname">change_par</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">beta</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">A</span><span class="p">:</span> <span class="n">numpy.array</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">numpy.array</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b_n</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#tomography.optimization.ReconstructorCVXPY.change_par" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change a parameter without reformulating the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="tomography.optimization.ReconstructorCVXPY.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">A</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">warm_start</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#tomography.optimization.ReconstructorCVXPY.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit method
+Defines the model and fit it to the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b</strong> (<em>np.array</em><em>, </em><em>dtype float</em>) – </p></li>
+<li><p><strong>A</strong> (<em>np.ndarray</em><em>, </em><em>dtype float</em>) – </p></li>
+<li><p><strong>mask</strong> (<em>np.ndarray</em><em>, </em><em>dtype int | bool</em>) – mask_gray &gt; 0.1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>reconstructor</strong> – The object after fit. To get the data access the attribute ‘x’ otherwise call fit_predict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Recontructor</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>b, A and mask are not required if the proble has been previously formulated (e.g. if self.warmstart = True)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="tomography.optimization.ReconstructorCVXPY.fit_predict">
+<code class="sig-name descname">fit_predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">A</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">warm_start</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.optimization.ReconstructorCVXPY.fit_predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the oprimization and return the reconstructed image.
+The same as self.fit but also returns the reshaped result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="tomography.optimization.ReconstructorCVXPY.optimize">
+<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">total_eval</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">31</span></em>, <em class="sig-param"><span class="n">initial_grid_n</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">4</span></em>, <em class="sig-param"><span class="n">acquisition_par</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">2</span></em>, <em class="sig-param"><span class="n">max_time</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">domain</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#tomography.optimization.ReconstructorCVXPY.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimize the alpha and beta parameter based on crossvalidation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b</strong> (<em>np.array</em>) – It should be already normalized (e.g. b/b.max())</p></li>
+<li><p><strong>total_eval</strong> (<em>int</em>) – total number the fucntion will be evaluated. In log2 space</p></li>
+<li><p><strong>initial_grid_n</strong> (<em>int</em>) – the number of parameters inside <cite>domain</cite> to be evaluated before starting the bayessian optimization</p></li>
+<li><p><strong>max_time</strong> (<em>int</em>) – max acceptable time to run the optimization, after this time optimization will be terminated
+NOTE: the use of this parameter is not reccomanded becouse it might result in output variability on different machines</p></li>
+<li><p><strong>domain</strong> (<em>List of dict</em>) – describing the domain to search, deafault is: [(-6, 1.8), (-4, 2.5)]</p></li>
+<li><p><strong>NOTE</strong> – </p></li>
+<li><p><strong>this function the values of alpha and beta will be changed</strong> (<em>Running</em>) – </p></li>
+<li><p><strong>is inplemented using bayessian optimization.</strong> (<em>This</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="tomography.optimization.ReconstructorFastTest">
+<em class="property">class </em><code class="sig-prename descclassname">tomography.optimization.</code><code class="sig-name descname">ReconstructorFastTest</code><span class="sig-paren">(</span><em class="sig-param">alpha: float = 1</em>, <em class="sig-param">beta: float = 0.01</em>, <em class="sig-param">config: tomography.defaults.ReconstructionConfig = &lt;tomography.defaults.ReconstructionConfig object&gt;</em>, <em class="sig-param">solver: str = 'SCS'</em>, <em class="sig-param">solver_kwargs: dict = {}</em>, <em class="sig-param">ground_truth: numpy.ndarray = None</em><span class="sig-paren">)</span><a class="headerlink" href="#tomography.optimization.ReconstructorFastTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="tomography.optimization.sum_nb_ll">
+<code class="sig-prename descclassname">tomography.optimization.</code><code class="sig-name descname">sum_nb_ll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">r</span></em><span class="sig-paren">)</span><a class="headerlink" href="#tomography.optimization.sum_nb_ll" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute negative binomial loglikelihood and gradient
+mu is b_pred = Acsc.dot(x)
+and b is y
+x</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.crossvalidation">
+<span id="cross-validation"></span><h2>Cross Validation<a class="headerlink" href="#module-tomography.crossvalidation" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="tomography.crossvalidation.bool_from_interval">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">bool_from_interval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">intervals_ixs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">boundaries</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">simmetry</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.crossvalidation.bool_from_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given interval to include and boundaries returns an array that can be used for bool indexing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>intervals_ixs</strong> (<em>list</em>) – A list of integers of which interval include, for example if intervals_ixs = [0,3] you want to include only
+data with ix so that boundaries[0] &lt;= ix &lt; boundaries[1] &amp; boundaries[3] &lt;= ix &lt; boundaries[4]</p></li>
+<li><p><strong>boundaries</strong> (<em>np.ndarray</em>) – an array indicating the borders of the boundaries</p></li>
+<li><p><strong>simmetry</strong> (<em>bool</em>) – if True will adapt the result to the simmetery constrained problem</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>bool_filter</strong> – a boolean array that can be used for filtering</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray of bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.crossvalidation.corr_objective">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">corr_objective</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_test</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">y_predicted</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#tomography.crossvalidation.corr_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the negative correlation (to minimize)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.crossvalidation.cross_validate">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">cross_validate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">A</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">boundaries</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">alpha_beta_grid</span><span class="p">:</span> <span class="n">List<span class="p">[</span>List<span class="p">[</span>float<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">score_f</span><span class="p">:</span> <span class="n">Callable</span></em>, <em class="sig-param"><span class="n">reconstructor_class</span><span class="p">:</span> <span class="n">Callable</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>List<span class="p">[</span>float<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#tomography.crossvalidation.cross_validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slow but exhaustive crossvalidation by naive grid search and no optimization warmstart</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>np.ndarray</em>) – the design matrix (as returned by a variant of tomography.prepare_regression function)</p></li>
+<li><p><strong>b</strong> (<em>np.ndarray</em>) – the observation vector (as returned by a variant of tomography.prepare_regression function)</p></li>
+<li><p><strong>mask</strong> (<em>np.ndarray</em>) – grayscale mask</p></li>
+<li><p><strong>boundaries</strong> (<em>np.ndarray</em>) – array constaining the borders of the intervals of b corresponding to different projections (starting from 0)</p></li>
+<li><p><strong>alpha_beta_grid</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em>) – a list of list containing the alpha, beta values to try</p></li>
+<li><p><strong>score_f</strong> (<em>Callable</em>) – function taking two arguments (b_test, b_train) and returing the score to be calulated</p></li>
+<li><p><strong>reconstructor_class</strong> (<em>class default</em><em>(</em><em>ReconstructorFast</em><em>)</em>) – should be either Reconstructor or ReconstructorFast Note: class not instance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>all_scores</strong> – the result of calling score_f for every possible split for every element of the grid</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[List[float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.crossvalidation.nb_loglik">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">nb_loglik</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">r</span></em><span class="sig-paren">)</span><a class="headerlink" href="#tomography.crossvalidation.nb_loglik" title="Permalink to this definition">¶</a></dt>
+<dd><p>Continuous Negative binomial loglikelihood function. Numerically stable implementation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – The values to evaluate the loglikehood on</p></li>
+<li><p><strong>mu</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – The mean parameter of the negative binomial distribution, is y_predicted</p></li>
+<li><p><strong>psi</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – The psi parameter of the NB distribution
+It corresponds to (VAR[x] - E[x])/ E[x]**2
+For a constant overdispersion <cite>r</cite> set it to r/mu</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The Negative binomial LogLikelihood</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more information on Continuous negative binomial likelihood function:
+- Robinson and Smyth, Biostatistics 2007
+Stability to high/low input values has been tested manually but there are no theoretical guarantees</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.crossvalidation.poisson_log_lik_objective">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">poisson_log_lik_objective</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_test</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">y_predicted</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#tomography.crossvalidation.poisson_log_lik_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minus Log likelihood
+$l(lambda;x)=sumlimits^n_{i=1}x_i        ext{ log }lambda-nlambda$</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.crossvalidation.rmse_objective">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">rmse_objective</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_test</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">y_predicted</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#tomography.crossvalidation.rmse_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the residual sum of squares</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.crossvalidation.rss_objective">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">rss_objective</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_test</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">y_predicted</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#tomography.crossvalidation.rss_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the residual sum of squares</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.crossvalidation.split_list">
+<code class="sig-prename descclassname">tomography.crossvalidation.</code><code class="sig-name descname">split_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lista</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">split_size</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>int<span class="p">, </span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Sequence<span class="p">[</span>Any<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#tomography.crossvalidation.split_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split a list in two groups of defined size in all possible permutations of combinations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lista</strong> (<em>list</em>) – list ot be split</p></li>
+<li><p><strong>split_size</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – a tuple of two integers , their sum neews to be len(lista)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>combinations</strong> – iterators of the possible splits for example ((1,2,3), (4,5)), ((1,2,4), (3,5)), …</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Itarator[Tuple[List, List]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.gridsearch">
+<span id="grid-search"></span><h2>Grid Search<a class="headerlink" href="#module-tomography.gridsearch" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="tomography.gridsearch.equilibrate">
+<code class="sig-prename descclassname">tomography.gridsearch.</code><code class="sig-name descname">equilibrate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#tomography.gridsearch.equilibrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expand the shorter of two array by zero padding</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gridsearch.gridsearch_allignment">
+<code class="sig-prename descclassname">tomography.gridsearch.</code><code class="sig-name descname">gridsearch_allignment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid_angles</span><span class="p">:</span> <span class="n">Iterable</span></em>, <em class="sig-param"><span class="n">grid_wids</span><span class="p">:</span> <span class="n">Iterable</span></em>, <em class="sig-param"><span class="n">grid_zeroshifts</span><span class="p">:</span> <span class="n">Iterable</span></em>, <em class="sig-param"><span class="n">expvalues</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">xi</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">reference_img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">objective</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#tomography.gridsearch.gridsearch_allignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a grid search of the optimal allignment exploring all the possible combinations of angles, widths and shifts.
+It uses a reference image and the expression values and compares them using a objective function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_angles</strong> (<em>Iterable</em>) – Iterable of the angles to try. The angle of projection in radiant</p></li>
+<li><p><strong>grid_wids</strong> (<em>Iterable</em>) – Iterable of the widths to try.
+Width is the thikness of the strips in pixels</p></li>
+<li><p><strong>grid_zeroshifts</strong> (<em>Iterable</em>) – Terable of the zeroshifts to try</p></li>
+<li><p><strong>expvalues</strong> (<em>np.ndarray</em>) – The variable to allign</p></li>
+<li><p><strong>xi</strong> (<em>np.ndarray</em>) – The indexes of the variable to allign</p></li>
+<li><p><strong>reference_img</strong> (<em>np.ndarray</em>) – The reference image that is projected and alligned with `` expvalues</p></li>
+<li><p><strong>mask</strong> (<em>np.ndarray</em>) – The mask used build the design matrix</p></li>
+<li><p><strong>objective</strong> (<em>Callable</em>) – Function to minimize. Should take 3 arguments f(s,X,Y) where X is the measured variable Y is the reference after projecting <cite>reference_img</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>results</strong> – The results organized in a pandas Dataframe.
+with columns: “objective”, “angle”, “width”, “scaling”, “shift”</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gridsearch.mixed_interpolator">
+<code class="sig-prename descclassname">tomography.gridsearch.</code><code class="sig-name descname">mixed_interpolator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xi</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.gridsearch.mixed_interpolator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a mixed cubic/linear interporlation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<em>np.ndarray</em>) – the x position mesured/not-excluded</p></li>
+<li><p><strong>p</strong> (<em>np.ndarray</em>) – the detection level</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>interpolated_p</strong> – the interpoleted values of p</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gridsearch.objective_afterscaling">
+<code class="sig-prename descclassname">tomography.gridsearch.</code><code class="sig-name descname">objective_afterscaling</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angle</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">experimental</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">reference_img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">objective</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><a class="headerlink" href="#tomography.gridsearch.objective_afterscaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the optimal vertical scaling given the angle and the width.
+This solves the problem of different scaling between the reference mask (arbitrary) and the mesured expression levels (reads/UMI).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> (<em>float</em>) – The angle of projection in radiant</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – The thikness of the strips in pixels</p></li>
+<li><p><strong>experimental</strong> (<em>np.ndarray</em>) – The mesured value for the variable</p></li>
+<li><p><strong>reference_img</strong> (<em>np.ndarray 2d</em>) – The reference image that prejected should give <cite>experimental</cite></p></li>
+<li><p><strong>mask</strong> (<em>np.ndarray</em>) – The mask for the tissue area</p></li>
+<li><p><strong>objective</strong> (<em>Callable default None</em>) – objecting function that takes a scalar attribute
+if None: Residual Sum of Squares will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>obj_val</strong> (<em>float</em>) – The value of the objective function at the minimum</p></li>
+<li><p><strong>scaling</strong> (<em>float</em>) – The</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gridsearch.zero_shifting">
+<code class="sig-prename descclassname">tomography.gridsearch.</code><code class="sig-name descname">zero_shifting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">A</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.gridsearch.zero_shifting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zero pad (from the left) or index A to make it fir a certain lenght</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.defaults">
+<span id="defaults"></span><h2>Defaults<a class="headerlink" href="#module-tomography.defaults" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="tomography.defaults.ReconstructionConfig">
+<em class="property">class </em><code class="sig-prename descclassname">tomography.defaults.</code><code class="sig-name descname">ReconstructionConfig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angles_names</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mask_thrs</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">reference_mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">symmetry</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">masked_formulation</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">angles_values</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">first_points</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">widths</span><span class="p">:</span> <span class="n">List<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#tomography.defaults.ReconstructionConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to construct config files for Tomographer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle_names</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – list containing names of angles</p></li>
+<li><p><strong>mask</strong> (<em>2D array</em>) – contains mask of tissue</p></li>
+<li><p><strong>mask_thrs</strong> (<em>Float</em><em>, </em><em>default 0.2</em>) – threshold for reference image used to create mask</p></li>
+<li><p><strong>reference_mask</strong> (<em>2D array</em>) – reference image</p></li>
+<li><p><strong>symmetry</strong> (<em>Boolean</em><em>, </em><em>default False</em>) – value indicating whether design matrix should be built assuming symmetry in tissue</p></li>
+<li><p><strong>masked_formulation</strong> (<em>Boolean</em><em>, </em><em>default True</em>) – value indicating whether design matrix should be built using the mask</p></li>
+<li><p><strong>angles_values</strong> (<em>Array</em>) – array containing angles in radians</p></li>
+<li><p><strong>first_points</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – list specifying the starting point to begin considering values within projection for each angle</p></li>
+<li><p><strong>widths</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – list indicating the estimated widths of the secondary slices in each angle</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.angles_names">
+<code class="sig-name descname">angles_names</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.angles_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.mask_g">
+<code class="sig-name descname">mask_g</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.mask_g" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.mask_thrs">
+<code class="sig-name descname">mask_thrs</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.mask_thrs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.reference_mask">
+<code class="sig-name descname">reference_mask</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.reference_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.symmetry">
+<code class="sig-name descname">symmetry</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.symmetry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.masked_formulation">
+<code class="sig-name descname">masked_formulation</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.masked_formulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.angles_values">
+<code class="sig-name descname">angles_values</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.angles_values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.first_points">
+<code class="sig-name descname">first_points</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.first_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.widths">
+<code class="sig-name descname">widths</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.widths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.proj_len">
+<code class="sig-name descname">proj_len</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.proj_len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tomography.defaults.ReconstructionConfig.A">
+<code class="sig-name descname">A</code><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="tomography.defaults.ReconstructionConfig.to_file">
+<code class="sig-name descname">to_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tomography.defaults.ReconstructionConfig.to_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.gaussprocess">
+<span id="gaussian-processes"></span><h2>Gaussian Processes<a class="headerlink" href="#module-tomography.gaussprocess" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="tomography.gaussprocess.fit_heteroscedastic">
+<code class="sig-prename descclassname">tomography.gaussprocess.</code><code class="sig-name descname">fit_heteroscedastic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">X</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; sklearn.gaussian_process.gpr.GaussianProcessRegressor<a class="headerlink" href="#tomography.gaussprocess.fit_heteroscedastic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a Gaussian Process with RBF kernel and heteroscedastic noise level</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – The target variable</p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – The independent variables</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>gp_heteroscedastic</strong> – Model, already fit and ready to predict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>GaussianProcessRegressor</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To get the average function and the predicted noise do:
+y_mean, y_std = gp_heteroscedastic.predict(X_new, return_std=True)</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gaussprocess.normalization_factors">
+<code class="sig-prename descclassname">tomography.gaussprocess.</code><code class="sig-name descname">normalization_factors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mu1</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">mu2</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">std1</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">std2</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">q</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.15</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><a class="headerlink" href="#tomography.gaussprocess.normalization_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the average value of a gaussian process at its extremities it returns
+the normalization factors that the two sides needs to be multiplied to so that
+the probablity of the smaller extremity generating a realization bigger of the one of the bigger extremity
+is at least q (default 15%)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu1</strong> (<em>float</em>) – estimate average of the first extremity point</p></li>
+<li><p><strong>mu2</strong> (<em>float</em>) – estimate average of the second extremity point</p></li>
+<li><p><strong>std1</strong> (<em>float</em>) – extimation of the standard deviation around the first extremity point</p></li>
+<li><p><strong>std2</strong> (<em>float</em>) – extimation of the standard deviation around the second extremity point</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>factor1</strong> (<em>float</em>) – number that should be mutliplied by the first extremity side of the function</p></li>
+<li><p><strong>factor2</strong> (<em>float</em>) – number that should be mutliplied by the second extremity side of the function</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gaussprocess.predict_gp_heteroscedastic">
+<code class="sig-prename descclassname">tomography.gaussprocess.</code><code class="sig-name descname">predict_gp_heteroscedastic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">X</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">X_new</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#tomography.gaussprocess.predict_gp_heteroscedastic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits and predict an heteroscedastic-kernel gaussian process model, taking care of the normalizations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – the measurements y to fit by the gaussian process</p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – The points at whic the measurments y are available</p></li>
+<li><p><strong>X_new</strong> (<em>np.ndarray</em>) – The points where to predict from the model</p></li>
+<li><p><strong>verbose</strong> (<em>bool default True</em>) – if you want to print info on the fit results</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>y_mean</strong> (<em>np.ndarray</em>) – The mean funtion of the gp at each point X_new</p></li>
+<li><p><strong>y_std</strong> (<em>np.ndarray</em>) – The deviation from the mean at every point X_new</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gaussprocess.use_gp_to_adjust_plates_diff">
+<code class="sig-prename descclassname">tomography.gaussprocess.</code><code class="sig-name descname">use_gp_to_adjust_plates_diff</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">q</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.15</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#tomography.gaussprocess.use_gp_to_adjust_plates_diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a GP to the left and right plate and corrects for different depth.
+It does this by matching the extremities in a conservative way uses a statistical condition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – Dictionary on anfles datasets</p></li>
+<li><p><strong>q</strong> (<em>float</em>) – Value used to decide how much to adjust the plate difference
+The probability that a lower margin rv is bigger than the higher margin rv
+0 -&gt; no adjustment
+0.5 -&gt; exact matching of mean functions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>coordinates_dict</strong> (<em>Tuple[Dict[str, Any], Dict[str, Any]]</em>) – To pass to the plotting fucntion.
+It contains the values x, y, X_news, y_means, y_stds, f
+Where each of them is a list of two elements containin the arrays corresponding to each of the plates</p></li>
+<li><p><strong>normalizations</strong> (<em>Dict[str, Tuple[float, float]]</em>) – keys are angles and values are tuple containing the normalizations factors that should be multiplied with that two plates respectivelly</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.gaussprocess.use_gp_to_adjust_spikes_diff">
+<code class="sig-prename descclassname">tomography.gaussprocess.</code><code class="sig-name descname">use_gp_to_adjust_spikes_diff</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spikes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">q</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.15</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#tomography.gaussprocess.use_gp_to_adjust_spikes_diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a GP to the left and right plate spikes and corrects to the avareage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spikes</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – Dictionary on anfles datasets</p></li>
+<li><p><strong>q</strong> (<em>float</em>) – Value used to decide how much to adjust the plate difference
+The probability that a lower margin rv is bigger than the higher margin rv
+0 -&gt; no adjustment
+0.5 -&gt; exact matching of mean functions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>coordinates_dict</strong> (<em>Tuple[Dict[str, Any], Dict[str, Any]]</em>) – To pass to the plotting fucntion.
+It contains the values x, y, X_news, y_means, y_stds, adj
+Where each of them is a list of two elements containin the arrays corresponding to each of the plates</p></li>
+<li><p><strong>adjustments</strong> (<em>Dict[str, Tuple[float, float]]</em>) – the number that needs to be multiplied by each point to obtain the normalization</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.utils">
+<span id="utils"></span><h2>Utils<a class="headerlink" href="#module-tomography.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="tomography.utils.IPT_2d">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">IPT_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">X</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">Y</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">numIter</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">100</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.utils.IPT_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterative proportional fitting used by Junker et al.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.utils.IPT_angular">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">IPT_angular</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angular_projs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">D</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">proj_len</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">sigma</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">numIter</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">100</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.utils.IPT_angular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterative proportional fitting adapted for angular cutting</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.utils.IPT_junker">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">IPT_junker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">X</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">Y</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">Z</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">numIter</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">100</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.utils.IPT_junker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterative proportional fitting used by Junker et al.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.utils.colorize">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">colorize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">hue</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">saturation</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.utils.colorize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add color of the given hue to an RGB image.</p>
+<p>By default, set the saturation to 1 so that the colors pop!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>np.ndarray</em>) – origina image in RGB</p></li>
+<li><p><strong>hue</strong> (<em>float</em>) – the hue we want to set</p></li>
+<li><p><strong>saturation</strong> (<em>float</em>) – the saturation we want to set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new image after the transformation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>new_image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.utils.get_plate">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">get_plate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.utils.get_plate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract for each well the 96 well plate it comes from</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.Dataframe</em>) – Pandas dataframe that contains as columns formatted as follow
+angle{degrees}_{plate_num}_{well_num}_x{pos}</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>plate_num</strong> – the plate id of each sample</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.utils.get_x">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">get_x</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#tomography.utils.get_x" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.Dataframe</em>) – Pandas dataframe that contains as columns formatted as follow
+angle{degrees}_{plate_num}_{well_num}_x{pos}</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>pos</strong> – the position on the projection axis ( orthogonal to the cutting angle)
+where the orientation of the axis reflects the order the strips have been cut</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.utils.mixed_interpolator2">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">mixed_interpolator2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xi</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#tomography.utils.mixed_interpolator2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a mixed cubic/linear interporlation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xi</strong> (<em>np.ndarray</em>) – the x position mesured/not-excluded</p></li>
+<li><p><strong>p</strong> (<em>np.ndarray</em>) – the detection level</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>interpolated_p</strong> (<em>np.ndarray</em>) – the interpoleted values of p</p></li>
+<li><p><strong>not_provided</strong> (<em>np.ndarray</em>) – boolean array with the values that have been fill markerd as True</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.utils.normalize_AUC">
+<code class="sig-prename descclassname">tomography.utils.</code><code class="sig-name descname">normalize_AUC</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">return_scaling_factors</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>Tuple<span class="p">, </span>Dict<span class="p">]</span><a class="headerlink" href="#tomography.utils.normalize_AUC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the datasets so that the area under the curve is the same in all projections
+and equal to their average.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>pd.Dataframe</em><em>]</em>) – A dictionary containing the projections datasets to normalize. Every dataframe is assumed to be
+not filterd (e.g. containing all the genes) and of shape (NGenes,NProjections)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>data</strong> (<em>Dict[str, pd.Dataframe]</em>) – the dictionary containing the different projections normalized</p></li>
+<li><p><strong>sclaing_factors</strong> (<em>optional</em>) – if return_scaling_factors is True it returns the scaling factors that have been used for the normalization</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>It uses sympson integration instead of just summing to avoid error because of the removed bad samples.
+This assumes that dx is the same, even if later this will be slightly changed to best fit the projections.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tomography.visualize">
+<span id="visualize"></span><h2>Visualize<a class="headerlink" href="#module-tomography.visualize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="tomography.visualize.plot_plate_adjustment">
+<code class="sig-prename descclassname">tomography.visualize.</code><code class="sig-name descname">plot_plate_adjustment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates_dict</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Tuple<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#tomography.visualize.plot_plate_adjustment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the results of plate normalization using gaussian processes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinates_dict</strong> (<em>Dict</em><em>[</em><em>Tuple</em><em>]</em>) – keys should be the angles
+the values tuple x, y, X_news, y_means, y_stds, f
+where each of them is a list of two elements containin the arrays corresponding to each of the plates</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.visualize.plot_raw_data_sum">
+<code class="sig-prename descclassname">tomography.visualize.</code><code class="sig-name descname">plot_raw_data_sum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">spikes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#tomography.visualize.plot_raw_data_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a first diagnostic graf of the total molecules detected per projection, including spikeins</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tomography.visualize.plot_spikes_adjustment">
+<code class="sig-prename descclassname">tomography.visualize.</code><code class="sig-name descname">plot_spikes_adjustment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates_dict</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Tuple<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#tomography.visualize.plot_spikes_adjustment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the results of spikes normalization using gaussian processes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinates_dict</strong> (<em>Dict</em><em>[</em><em>Tuple</em><em>]</em>) – keys should be the angles
+the values tuple x, y, X_news, y_means, y_stds, f
+where each of them is a list of two elements containin the arrays corresponding to each of the plates</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Code</a><ul>
+<li><a class="reference internal" href="#tomographer">Tomographer</a></li>
+<li><a class="reference internal" href="#module-tomography.core">Core</a></li>
+<li><a class="reference internal" href="#module-tomography.optimization">Optimization</a></li>
+<li><a class="reference internal" href="#module-tomography.crossvalidation">Cross Validation</a></li>
+<li><a class="reference internal" href="#module-tomography.gridsearch">Grid Search</a></li>
+<li><a class="reference internal" href="#module-tomography.defaults">Defaults</a></li>
+<li><a class="reference internal" href="#module-tomography.gaussprocess">Gaussian Processes</a></li>
+<li><a class="reference internal" href="#module-tomography.utils">Utils</a></li>
+<li><a class="reference internal" href="#module-tomography.visualize">Visualize</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">Tutorials</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/code.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorials"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tomographer  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, La Manno Group.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

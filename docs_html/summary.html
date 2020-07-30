@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Summary &#8212; Tomographer  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorials" href="tutorial.html" />
+    <link rel="prev" title="Tomographer Documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorials"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Tomographer Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tomographer  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
+<p>The Tomographer package implements the mathematical spatial image reconstruction of any set of read counts as described in this paper (reference). Tutorials are provided to facilitate its implementation.</p>
+<div class="section" id="section-1-required-inputs">
+<h2>Section 1: Required Inputs<a class="headerlink" href="#section-1-required-inputs" title="Permalink to this headline">¶</a></h2>
+<p>Tomographer requires a number of inputs in the correct format.</p>
+<ul class="simple">
+<li><p><strong>The design matrix</strong>. The design matrix encodes information regarding the experimental setup parameters. These parameters are listed in the class <cite>ReconstructionConfig</cite> (refer to documentation of <cite>defaults.py</cite>) as arguments. The function will create an <cite>.hdf5</cite> formatted file that will be used as the configuration file.</p></li>
+<li><p><strong>The projection data</strong>. The input genes are also stored in an <cite>.hdf5</cite> file in the form of their projection data.</p></li>
+<li><p><strong>The list of genes to reconstruct</strong>. This is simply <cite>.txt</cite> file which lists line by line the gene names from the projection data one wishes to reconstruct. Each gene must be separated by <cite>n</cite>.</p></li>
+</ul>
+</div>
+<div class="section" id="section-2-reconstruction-parameters">
+<h2>Section 2: Reconstruction Parameters<a class="headerlink" href="#section-2-reconstruction-parameters" title="Permalink to this headline">¶</a></h2>
+<p>There are a number of parameters that can be modified in this package. Depending on the precise application, the precise parameters may change. <cite>tomorun.py</cite> must be modified in function <cite>reconstruction</cite> to reflect these changes.</p>
+<ul class="simple">
+<li><p><strong>Solver</strong>. The default solver uses an optimization package from Scipy due to its speed. The solver can be switched to cvxpy (ReconstructorCVXPY), which in some cases produces better results.</p></li>
+<li><p><strong>Hyperparameter search</strong>. A number of parameters are related to the search. (1) The range for the parameters and resolution of the grid search can be specified. If one already has an idea of what hyperparameters one wants to use, they can be specified directly and no search will be performed. (2) Using a logged grid. The default is a linear grid. (3) Number of extra evaluations to be performed using Bayesian optimization after grid search. Default is 7.</p></li>
+</ul>
+</div>
+<div class="section" id="section-3-outputs">
+<h2>Section 3: Outputs<a class="headerlink" href="#section-3-outputs" title="Permalink to this headline">¶</a></h2>
+<p>The output of running Tomographer are two <cite>.hdf5</cite> files:</p>
+<ul class="simple">
+<li><p><strong>Reconstructed genes</strong>. These are the images after mathematical reconstruction. Gene names are listed as keys.</p></li>
+<li><p><strong>Alpha beta parameters</strong>. If Tomographer was asked to find the optimal alpha-beta hyperparameters, the selected parameters are stored in this <cite>.hdf5</cite> file. This can be useful for further analysis for filtering genes.</p></li>
+</ul>
+</div>
+<div class="section" id="section-4-commands-for-reconstruction">
+<h2>Section 4: Commands for reconstruction<a class="headerlink" href="#section-4-commands-for-reconstruction" title="Permalink to this headline">¶</a></h2>
+<p>The file <cite>tomorun.py</cite> takes in 5 arguments and will perform the entire pipeline.</p>
+<p>The 5 arguments are the following:</p>
+<ul class="simple">
+<li><p><strong>-c</strong> configurationFile. This is the config file that was generated to specify experimental parameters</p></li>
+<li><p><strong>-i</strong> inputProjections.hdf5. This contains the projection data</p></li>
+<li><p><strong>-o</strong> outputFileName. This is the name you want to give to your output file</p></li>
+<li><p><strong>-a</strong> outputFileNameAlphaBeta. This is the name you want to give to your alpha-beta output file.</p></li>
+<li><p><strong>-g</strong> listofGenes. This is the text file containing gene names you wish to reconstruct</p></li>
+</ul>
+<p>An example usage of <cite>tomorun.py</cite> would be</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">OMP_NUM_THREADS</span> <span class="o">&amp;&amp;</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">nohup</span> <span class="n">python3</span> <span class="o">/</span><span class="n">tomography</span><span class="o">/</span><span class="n">tomorun</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">configurationFile</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">inputProjections</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">o</span> <span class="o">/</span><span class="n">outputFileName</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">a</span>  <span class="n">outputFileNameAlphaBeta</span><span class="o">.</span><span class="n">hdf5</span> <span class="o">-</span><span class="n">g</span> <span class="n">listofGenes</span><span class="o">.</span><span class="n">txt</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">outputstderr</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">&amp;</span>
+</pre></div>
+</div>
+<p>Note that the first line <cite>export OMP_NUM_THREADS &amp;&amp; OMP_NUM_THREADS=2 &amp;&amp; nohup</cite> can be useful for preventing all cores to be used simultaneously. In this case the number of cores are restricted to 2, but this can be changed.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Summary</a><ul>
+<li><a class="reference internal" href="#section-1-required-inputs">Section 1: Required Inputs</a></li>
+<li><a class="reference internal" href="#section-2-reconstruction-parameters">Section 2: Reconstruction Parameters</a></li>
+<li><a class="reference internal" href="#section-3-outputs">Section 3: Outputs</a></li>
+<li><a class="reference internal" href="#section-4-commands-for-reconstruction">Section 4: Commands for reconstruction</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Tomographer Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="next chapter">Tutorials</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/summary.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorials"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Tomographer Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tomographer  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, La Manno Group.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>
