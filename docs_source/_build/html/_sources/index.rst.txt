@@ -1,0 +1,31 @@
+Tomographer Documentation
+*************************
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+Tomographer
+=================
+.. automodule:: tomography.tomographer
+   :members:
+
+Core
+=====================
+.. automodule:: tomography.core
+   :members:
+
+Optimization
+=====================
+.. automodule:: tomography.optimization
+   :members:
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
