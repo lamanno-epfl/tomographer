@@ -22,7 +22,7 @@ setup(
     scripts=['tomography/tomorun.py'],
     author="Gioele La Manno",
     author_email="gioelelamanno@gmail.com",
-    description="Functions for RNA-seq tomography",
+    description="Software for spatial tissue profiling by imaging-free molecular tomography",
     license="MIT",
-    url="https://github.com/linnarsson-lab/tomography",
+    url="https://github.com/lamanno-epfl/tomographer",
 )
