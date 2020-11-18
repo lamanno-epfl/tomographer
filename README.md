@@ -44,9 +44,9 @@ cd tomographer
 git pull
 ```
 
-## Use
+## Use (Please refer to http://tomographer.info/ for a detailed tutorial)
 
-The package requires 3 input files and 2 output directories. Please also refer to http://tomographer.info/ for a detailed tutorial.
+The package requires 3 input files and 2 output directories.
 
 ### Inputs
 
