@@ -19,7 +19,7 @@ setup(
         'GPyOpt'
     ],
     # metadata
-    scripts=['tomography/tomorun.py', 'tomography/tomo2img.py', 'tomography/tomorun_quick.py'],
+    scripts=['tomography/tomorun.py'],
     author="Gioele La Manno",
     author_email="gioelelamanno@gmail.com",
     description="Functions for RNA-seq tomography",
