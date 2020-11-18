@@ -1,7 +1,7 @@
 Summary
 ========
 
-The Tomographer package implements the mathematical spatial image reconstruction of any set of read counts as described in this paper (reference). Tutorials are provided to facilitate its implementation.
+The Tomographer package implements the mathematical spatial image reconstruction of any set of read counts as described in this paper <https://www.biorxiv.org/content/10.1101/2020.08.04.235655v1>. Tutorials are provided to facilitate its implementation.
 
 Section 1: Required Inputs
 ----------------------------
