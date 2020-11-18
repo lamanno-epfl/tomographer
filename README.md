@@ -1,5 +1,5 @@
-# tomography-project
-RNA-seq tomography project software.
+# Tomographer
+Software for spatial tissue profiling by imaging-free molecular tomography.
 
 # Installation
 
