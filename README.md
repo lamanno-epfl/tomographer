@@ -2,7 +2,7 @@
 Software for spatial tissue profiling by imaging-free molecular tomography.
 
 # Tutorials
-Documentation and tutorials explaining the step-by-step usage of Tomographer can be found here: http://tomographer.info/
+Documentation and tutorials explaining the step-by-step usage of tomographer can be found here: http://tomographer.info/
 
 # Installation
 
@@ -38,7 +38,7 @@ Lastly, install in development mode
 pip install -e ./tomographer
 ```
 
-To update you just need to do (you don't need to reinstall): 
+To update you can simply (you don't need to reinstall): 
 ```bash
 cd tomographer
 git pull
