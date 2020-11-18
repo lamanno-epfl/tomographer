@@ -24,5 +24,5 @@ setup(
     author_email="gioelelamanno@gmail.com",
     description="Functions for RNA-seq tomography",
     license="MIT",
-    url="https://github.com/lamanno-lab/tomographer",
+    url="https://github.com/linnarsson-lab/tomography",
 )
