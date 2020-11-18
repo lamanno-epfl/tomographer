@@ -39,7 +39,7 @@ Lastly, install in development mode
 pip install -e ./tomographer
 ```
 
-To update you can simply (you don't need to reinstall): 
+To update you can simply pull (you don't need to reinstall): 
 ```bash
 cd tomographer
 git pull
