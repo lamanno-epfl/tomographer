@@ -7,7 +7,7 @@ Installation is achieved in two commands:
 
 First clone locally
 ```bash
-git clone https://github.com/lamanno-epfl/tomography-project.git
+git clone https://github.com/lamanno-epfl/tomographer.git
 ```
 and then install in development mode
 ```bash
