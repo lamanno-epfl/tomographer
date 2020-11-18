@@ -12,7 +12,7 @@ Tomographer requires a number of inputs in the correct format.
 
 * **The projection data**. The input genes are also stored in an `.hdf5` file in the form of their projection data.
 
-* **The list of genes to reconstruct**. This is simply `.txt` file which lists line by line the gene names from the projection data one wishes to reconstruct. Each gene must be separated by `\n`.
+* **The list of genes to reconstruct**. This is a simple `.txt` file which lists line by line the gene names for the projection data one wishes to reconstruct. Each gene must be separated by `\n`.
 
 Section 2: Reconstruction Parameters
 --------------------------------------
