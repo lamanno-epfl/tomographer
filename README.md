@@ -11,11 +11,11 @@ git clone https://github.com/lamanno-epfl/tomographer.git
 ```
 and then install in development mode
 ```bash
-pip install -e ./tomography-project
+pip install -e ./tomographer
 ```
 To update you just need to do (you don't need to reinstall): 
 ```bash
-cd tomography-project
+cd tomographer
 git pull
 ```
 
@@ -74,6 +74,6 @@ The package requires 3 input files and 2 output directories.
 
 ### Example Usage
 
-From tomography-project, one can run the following command:
+From tomographer, one can run the following command:
 
 ```python3 tomography/tomorun.py -c path_to_config.hdf5 -i path_to_inputs.hdf5 -g /list_of_genes.txt -o /path_to_output.hdf5 -a  /path_to_/alpha_beta_output.hdf5 ```
