@@ -252,3 +252,107 @@ class TomographerDebug(Tomographer):
         result = self.reconstructor.fit_predict(b, warm_start=warm_start)
         logging.info("Finished Reconstructing %s" % gene)
         return result
+
+
+
+
+class TomographerManualDesignMatrix(Tomographer):
+    def __init__(self, A: np.ndarray, projection_lengths: list) -> None:
+        super().__init__()
+        self.A_manual = A
+        self.projection_lengths = projection_lengths
+        
+        
+       # self.reconstructor = ReconstructorFastScipyNB()
+
+
+    def prepare_design(self, symmetry: bool=None, masked_formulation: bool=None) -> None:
+        if symmetry is not None:
+            self.cfg.symmetry = symmetry
+        if masked_formulation is not None:
+            self.cfg.masked_formulation = masked_formulation
+
+        self.cfg.A = self.A_manual
+        D = self.A_manual
+        self.cfg.proj_len =  self.projection_lengths #proj_len
+        
+        if self.cfg.symmetry:
+            self.prepare = prepare_observations_symmetry
+            if self.cfg.masked_formulation:
+                #self.cfg.A = prepare_design_symmetry_masked(D, self.cfg.mask_bw)
+                self.reconstructor = ReconstructorFastScipyNB(config=self.cfg)
+            else:
+                #self.cfg.A = prepare_design_symmetry(D)
+                self.reconstructor = ReconstructorFastScipyNB(config=self.cfg)
+        else:
+            self.prepare = prepare_observations
+            if self.cfg.masked_formulation:
+                #self.cfg.A = prepare_design_masked(D, self.cfg.mask_bw)
+                self.reconstructor = ReconstructorFastScipyNB(config=self.cfg)
+            else:
+                #self.cfg.A = D
+                self.reconstructor = ReconstructorFastScipyNB(config=self.cfg)
+
+        self.cfg.A = self.A_manual
+        self.ready_flag = True
+
+
+    def reconstruct(self, b: np.ndarray, alpha_beta: Union[str, Tuple[float, float]]="auto",
+                    warm_start: bool=False,
+                    crossval_kwargs: Dict[str, Any]={}) -> np.ndarray:
+        """Perform reconstruction of a gene
+
+        Args
+        ----
+        gene: str
+            gene name as in datafile
+
+        alpha_beta: str or tuple
+            options are:
+                "auto": it will try to use the alpha and beta parameters present in the data file, if none is provided it will perform crossvalidation
+                "crossvalidation": it will force crossvalidation
+                (alpha, beta): passing a tuple will perform the reconstruction using this parameters
+
+        warm_start:
+            whether to use the previous reconstruction result as warm start.
+            NOTE what the previous reconstruction is might change depending the alpha_beta parameter
+        
+        Return
+        ------
+        reconstructed: np.ndarray (2d)
+            the reconstructed signal already reshaped
+
+
+        NOTE you can also access the recosntruction parameters using the attribute `.reconstructor`
+        """
+        
+
+
+        #b = self.observations[gene] # select observation vector
+
+        # Normalize b taking some precaoution against high outlier and against division by 0
+        # More naive form: b / b.max()
+        self.unnormalized_b = np.copy(b)
+        self.norm_factor = np.maximum(np.percentile(b, 98), np.max(b) / 3.)
+        # hopefully this is the count data as i comment ourt the self.norm_factor lines 
+        b = self.unnormalized_b / self.norm_factor
+
+        #self.reconstructor.norm_factor = self.norm_factor
+
+        if alpha_beta == "auto":
+            try:
+                _alpha, _beta = self.data.alphas_betas[gene]
+                logging.info("alpha and beta found in the data file")
+                self.reconstructor.change_par(alpha=_alpha, beta=_beta)
+            except KeyError:
+                logging.debug("alpha and beta not found in the data file, performing crossvalidation")
+                self.reconstructor.optimize(b, **crossval_kwargs)
+        elif alpha_beta == "crossvalidation":
+            self.reconstructor.optimize(b, **crossval_kwargs)
+        elif isinstance(alpha_beta, tuple) or isinstance(alpha_beta, list) or isinstance(alpha_beta, np.array):
+            _alpha, _beta = alpha_beta
+            self.reconstructor.change_par(alpha=_alpha, beta=_beta)
+        logging.info("Reconstructing")
+        result = self.reconstructor.fit_predict(b, warm_start=warm_start)
+        logging.info("Finished Reconstructing %")
+        return result

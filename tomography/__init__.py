@@ -9,4 +9,4 @@ from .utils import get_x, get_plate, colorize, normalize_AUC, mixed_interpolator
 from .visualize import plot_raw_data_sum, plot_raw_spikes, plot_gp_with_std, plot_plate_adjustment, plot_spikes_adjustment, plot_opt_results
 from .visualize import plot_projection_check, plot_reconstruction_check, show_reconstruction_raw, show_reconstruction
 from .visualize import mixing_with_img, plot_projections_recontruction
-from .tomographer import Tomographer, TomographerDebug
+from .tomographer import Tomographer, TomographerDebug, TomographerManualDesignMatrix
