@@ -1,7 +1,7 @@
 Summary
 ========
 
-The Tomographer package implements the mathematical spatial image reconstruction of any set of read counts as described in this paper (reference). Tutorials are provided to facilitate its implementation.
+The Tomographer package implements the mathematical spatial image reconstruction of any set of read counts as described in `this paper <https://www.biorxiv.org/content/10.1101/2020.08.04.235655v1>`. Tutorials are provided to facilitate its implementation.
 
 Section 1: Required Inputs
 ----------------------------
@@ -12,16 +12,16 @@ Tomographer requires a number of inputs in the correct format.
 
 * **The projection data**. The input genes are also stored in an `.hdf5` file in the form of their projection data.
 
-* **The list of genes to reconstruct**. This is simply `.txt` file which lists line by line the gene names from the projection data one wishes to reconstruct. Each gene must be separated by `\n`.
+* **The list of genes to reconstruct**. This is a simple `.txt` file which lists line by line the gene names for the projection data one wishes to reconstruct. Each gene must be separated by `\n`.
 
 Section 2: Reconstruction Parameters
 --------------------------------------
 
-There are a number of parameters that can be modified in this package. Depending on the precise application, the precise parameters may change. `tomorun.py` must be modified in function `reconstruction` to reflect these changes.
+There are a number of parameters that can be modified in this package. Depending on the specific application, the precise parameters may change. `tomorun.py` must be modified in function `reconstruction` to reflect these changes.
 
-* **Solver**. The default solver uses an optimization package from Scipy due to its speed. The solver can be switched to cvxpy (ReconstructorCVXPY), which in some cases produces better results.
+* **Solver**. The default solver uses an optimization package from Scipy due to its speed. The solver can be switched to cvxpy (ReconstructorCVXPY), which in some cases may produce better results.
 
-* **Hyperparameter search**. A number of parameters are related to the search. (1) The range for the parameters and resolution of the grid search can be specified. If one already has an idea of what hyperparameters one wants to use, they can be specified directly and no search will be performed. (2) Using a logged grid. The default is a linear grid. (3) Number of extra evaluations to be performed using Bayesian optimization after grid search. Default is 7.
+* **Hyperparameter search**. A number of parameters are related to the search. (1) The range for the parameters and the resolution of the grid search can be specified. If one already has an idea of which hyperparameters one wants to use, they can be specified directly and no search will be performed. (2) Using a logged grid can be specified. The default is a linear grid. (3) The number of extra evaluations to be performed using Bayesian optimization after grid search can be specified. Default is 7.
 
 
 
@@ -45,7 +45,7 @@ The 5 arguments are the following:
 
 * **-i** inputProjections.hdf5. This contains the projection data
 
-* **-o** outputFileName. This is the name you want to give to your output file
+* **-o** outputFileName. This is the name you want to give to your reconstruction output file
 
 * **-a** outputFileNameAlphaBeta. This is the name you want to give to your alpha-beta output file.
 
@@ -55,4 +55,4 @@ An example usage of `tomorun.py` would be ::
 
     export OMP_NUM_THREADS && OMP_NUM_THREADS=2 && nohup python3 /tomography/tomorun.py -c /configurationFile.hdf5 -i /inputProjections.hdf5 -o /outputFileName.hdf5 -a  outputFileNameAlphaBeta.hdf5 -g listofGenes.txt> /outputstderr.txt 2>&1 &
 
-Note that the first line `export OMP_NUM_THREADS && OMP_NUM_THREADS=2 && nohup` can be useful for preventing all cores to be used simultaneously. In this case the number of cores are restricted to 2, but this can be changed. 
+Note that the first line `export OMP_NUM_THREADS && OMP_NUM_THREADS=2 && nohup` can be useful for preventing all CPU cores to be used simultaneously. In the case above the number of cores is restricted to 2, but this can be changed as desired. 

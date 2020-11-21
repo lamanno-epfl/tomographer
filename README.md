@@ -1,46 +1,51 @@
-# tomography-project
-RNA-seq tomography project software.
+# Tomographer
+Software for spatial tissue profiling by imaging-free molecular tomography.
+
+# Tutorials
+Documentation and tutorials explaining the step-by-step usage of tomographer can be found here: http://tomographer.info/
 
 # Installation
 
-Installation is achieved in two commands:
+The installation of the tomographer package and all requirements is achieved in the following steps.
 
-First clone locally
+If you don't have conda, you might find it helpful to install it before beginning:
 ```bash
-git clone https://github.com/lamanno-epfl/tomography-project.git
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
 ```
-and then install in development mode
+
+First, configure your environment containing some dependencies:
 ```bash
-pip install -e ./tomography-project
+conda create -n tomographer-env python=3.7 numpy scipy pandas scikit-learn scikit-image matplotlib --channel bioconda --channel conda-forge
+conda activate tomographer-env
 ```
-To update you just need to do (you don't need to reinstall): 
+
+Second, install required libraries
 ```bash
-cd tomography-project
+pip install PyWavelets GPy GPyopt
+
+git clone https://github.com/jmetzen/gp_extras.git
+cd gp_extras
+[sudo] python setup.py install
+```
+
+Third, clone tomographer locally
+```bash
+git clone https://github.com/lamanno-epfl/tomographer.git
+```
+
+Lastly, install in development mode
+```bash
+pip install -e ./tomographer
+```
+
+To update you can simply pull (you don't need to reinstall): 
+```bash
+cd tomographer
 git pull
 ```
 
-## Requirements
-
-This package requires:
-* The following common packages (available on conda):
-```
-'numpy'
-'scipy'
-'pandas'
-'scikit-learn'
-'scikit-image'
-'matplotlib'
-```
-
-* And these less known libraries (to install with pip or by cloning source and python setup install):
-```
-'gp_extras'
-'PyWavelets'
-'gpy'
-'gpyopt'
-```
-
-## Use
+## Use (Please refer to http://tomographer.info/ for a detailed tutorial)
 
 The package requires 3 input files and 2 output directories.
 
@@ -74,6 +79,6 @@ The package requires 3 input files and 2 output directories.
 
 ### Example Usage
 
-From tomography-project, one can run the following command:
+From tomographer, one can run the following command:
 
 ```python3 tomography/tomorun.py -c path_to_config.hdf5 -i path_to_inputs.hdf5 -g /list_of_genes.txt -o /path_to_output.hdf5 -a  /path_to_/alpha_beta_output.hdf5 ```
