@@ -6,13 +6,6 @@ from .defaults import load_config, ReconstructionConfig, connect_to_data, DataCo
 from .core import build_Design_Matrix, prepare_design_masked, prepare_design_symmetry, prepare_design_symmetry_masked, prepare_observations, prepare_observations_symmetry
 from .optimization import ReconstructorFastScipyNB
 
-from typing import *
-import logging
-import warnings
-import numpy as np
-from tomography.defaults import load_config, ReconstructionConfig, connect_to_data, DataConnection
-from tomography.core import build_Design_Matrix, prepare_design_masked, prepare_design_symmetry, prepare_design_symmetry_masked, prepare_observations, prepare_observations_symmetry
-from tomography.optimization import ReconstructorFastScipyNB
 
 
 class Tomographer:
