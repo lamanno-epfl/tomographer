@@ -6,6 +6,14 @@ from .defaults import load_config, ReconstructionConfig, connect_to_data, DataCo
 from .core import build_Design_Matrix, prepare_design_masked, prepare_design_symmetry, prepare_design_symmetry_masked, prepare_observations, prepare_observations_symmetry
 from .optimization import ReconstructorFastScipyNB
 
+from typing import *
+import logging
+import warnings
+import numpy as np
+from tomography.defaults import load_config, ReconstructionConfig, connect_to_data, DataConnection
+from tomography.core import build_Design_Matrix, prepare_design_masked, prepare_design_symmetry, prepare_design_symmetry_masked, prepare_observations, prepare_observations_symmetry
+from tomography.optimization import ReconstructorFastScipyNB
+
 
 class Tomographer:
     """Main object to work with tomographic reconstruction problems
@@ -64,7 +72,7 @@ class Tomographer:
                                           notation_inverse=True,
                                           return_projlen=True)
         self.cfg.proj_len = proj_len
-        
+
         if self.cfg.symmetry:
             self.prepare = prepare_observations_symmetry
             if self.cfg.masked_formulation:
@@ -84,7 +92,7 @@ class Tomographer:
 
         self.ready_flag = True
 
-    def reconstruct(self, gene: str, alpha_beta: Union[str, Tuple[float, float]]="auto",
+    def reconstruct(self, gene: str, alpha_beta: Union[str, Tuple[float, float]]="auto",return_heuristic=False,
                     warm_start: bool=False,
                     crossval_kwargs: Dict[str, Any]={}, nb_r = 0.3, kfolds=3) -> np.ndarray:
         """Perform reconstruction of a gene
@@ -99,6 +107,10 @@ class Tomographer:
                 "auto": it will try to use the alpha and beta parameters present in the data file, if none is provided it will perform crossvalidation
                 "crossvalidation": it will force crossvalidation
                 (alpha, beta): passing a tuple will perform the reconstruction using this parameters
+
+        return_heuristic: bool
+            whether to output the reconstruction along with the heuristic score calculated by 2log(sparsity) + log(expression)
+            returns tuple(reconstruction, heuristic)
 
         warm_start:
             whether to use the previous reconstruction result as warm start.
@@ -150,7 +162,17 @@ class Tomographer:
         logging.info("Reconstructing")
         result = self.reconstructor.fit_predict(b, warm_start=warm_start)
         logging.info("Finished Reconstructing %s" % gene)
+
+        if return_heuristic:
+            sparsity_measure = 1. / np.sum(result > 0.4 * result)
+            expression = np.mean(b[b > 0])
+            reliability_heuristic = 2 * np.log(sparsity_measure) + np.log(expression)
+            return result, reliability_heuristic
+
         return result
+
+
+
 
 
 class TomographerDebug(Tomographer):
