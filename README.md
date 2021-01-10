@@ -8,7 +8,7 @@ Documentation and tutorials explaining the step-by-step usage of tomographer can
 
 The installation of the tomographer package and all requirements is achieved in the following steps.
 
-If you don't have conda, you might find it helpful to install it before beginning:
+If you don't have conda, you might find it helpful to install Miniconda before beginning:
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
