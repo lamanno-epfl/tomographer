@@ -16,7 +16,7 @@ bash Miniconda3-latest-Linux-x86_64.sh
 
 First, configure your environment containing some dependencies:
 ```bash
-conda create -n tomographer-env python=3.7 numpy scipy pandas scikit-learn scikit-image matplotlib --channel bioconda --channel conda-forge
+conda create -n tomographer-env python=3.7 numpy=1.19.0 scipy=1.2.0 pandas=0.24.1 scikit-learn=0.20.2 scikit-image=0.14.2 matplotlib=3.0.2 --channel bioconda --channel conda-forge
 conda activate tomographer-env
 ```
 
