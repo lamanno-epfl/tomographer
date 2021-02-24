@@ -23,11 +23,13 @@ conda activate tomographer-env
 Second, install required libraries
 ```bash
 pip install PyWavelets GPy GPyopt
-
 git clone https://github.com/jmetzen/gp_extras.git
 cd gp_extras
 [sudo] python setup.py install
 ```
+
+For some tutorial notebooks you will also need BrainMap:
+```git clone https://github.com/linnarsson-lab/brainmap```
 
 Third, clone tomographer locally
 ```bash
