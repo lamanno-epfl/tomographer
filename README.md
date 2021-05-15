@@ -8,10 +8,10 @@ Software for spatial tissue profiling by imaging-free molecular tomography.
 <a name="headers"/>
 
 # Resources
-__Tutorials:__ Documentation and tutorials explaining the step-by-step usage of Tomographer can be found here: http://tomographer.info/ <br>
-__Example Notebooks:__ Step-by-step notebooks to be found here: https://github.com/lamanno-epfl/tomographer/blob/master/tutorials/ <br>
-__Tomographer Data Viewer:__ Tomographer data-set browser of mouse and lizard brains: https://strpseq-viewer.epfl.ch/ <br>
-__Original Article:__ https://www.nature.com/articles/s41587-021-00879-7
+__Tutorials.__ Documentation and tutorials explaining the step-by-step usage of Tomographer can be found here: http://tomographer.info/ <br>
+__Example Notebooks.__ Step-by-step notebooks to be found here: https://github.com/lamanno-epfl/tomographer/blob/master/tutorials/ <br>
+__Tomographer Data Viewer.__ Tomographer data-set browser of mouse and lizard brains: https://strpseq-viewer.epfl.ch/ <br>
+__Original Article.__ https://www.nature.com/articles/s41587-021-00879-7
 
 # Installation
 
