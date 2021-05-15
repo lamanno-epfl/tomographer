@@ -29,7 +29,11 @@ cd gp_extras
 ```
 
 For some tutorial notebooks you will also need BrainMap:
-```git clone https://github.com/linnarsson-lab/brainmap```
+```bash
+git clone https://github.com/linnarsson-lab/brainmap
+cd brainmap
+[sudo] python setup.py install
+```
 
 Third, clone tomographer locally
 ```bash
